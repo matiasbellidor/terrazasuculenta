@@ -51,7 +51,7 @@ export default function CarruselIdeas({ t, idioma }) {
               key={idea.imagen}
               className="min-w-0 shrink-0 grow-0 basis-3/5 pl-4 sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
             >
-              <figure className="relative aspect-9/16 overflow-hidden rounded-xl bg-sage/10 shadow-sm ring-1 ring-ink/5">
+              <figure className="relative aspect-4/5 overflow-hidden rounded-xl bg-sage/10 shadow-sm ring-1 ring-ink/5">
                 <Image
                   src={idea.imagen}
                   alt={`${t.ideas.alt}: ${idea[idioma]}`}
