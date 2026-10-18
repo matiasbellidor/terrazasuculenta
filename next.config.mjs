@@ -3,6 +3,7 @@ const nextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  poweredByHeader: false,
   // El español vive sin prefijo y el inglés bajo /en; las dos versiones salen de app/[lang].
   async rewrites() {
     return [

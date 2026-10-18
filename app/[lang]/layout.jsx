@@ -2,8 +2,10 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import Preloader from "@/components/Preloader";
+import { formatearPrecio, productos } from "@/lib/datos";
 import { IDIOMAS, atributoLang, esIdioma } from "@/lib/idiomas";
 import { SCRIPT_PRELOADER } from "@/lib/preloader";
+import { URL_SITIO } from "@/lib/sitio";
 import { textos } from "@/lib/textos";
 
 const inter = Inter({
@@ -25,14 +27,16 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
   if (!esIdioma(lang)) notFound();
   const t = textos[lang];
+  const descripcion = t.meta.descripcion(formatearPrecio(productos[0].precio, lang));
   return {
+    metadataBase: new URL(URL_SITIO),
     title: t.meta.titulo,
-    description: t.meta.descripcion,
+    description: descripcion,
     // Íconos: app/icon.png y app/apple-icon.png. La imagen para compartir vive en app/ y se
     // referencia acá porque este openGraph reemplaza al que Next arma con el archivo.
     openGraph: {
       title: "Terraza Suculenta",
-      description: t.meta.descripcion,
+      description: descripcion,
       siteName: "Terraza Suculenta",
       locale: lang === "en" ? "en_US" : "es_AR",
       type: "website",

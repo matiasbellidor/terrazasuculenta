@@ -8,6 +8,7 @@ import { WhatsAppIcon } from "@/components/IconosMarca";
 import Navbar from "@/components/Navbar";
 import { formatearPrecio, linkWhatsApp, productos } from "@/lib/datos";
 import { conIdioma } from "@/lib/idiomas";
+import { alternativas } from "@/lib/sitio";
 import { textos } from "@/lib/textos";
 
 const ICONOS_DATOS = [Truck, MapPin, Gift];
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }) {
   return {
     title: `${nombre} | Terraza Suculenta`,
     description: descripcion,
+    alternates: alternativas(lang, `/suculentas/${slug}`),
     openGraph: {
       title: nombre,
       description: descripcion,
