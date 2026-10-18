@@ -54,6 +54,7 @@ export default function Footer({ idioma }) {
                 <a
                   href={linkWhatsApp(t.whatsapp.consulta)}
                   {...linkExterno}
+                  data-ubicacion="pie"
                   className="inline-flex items-center gap-2.5 transition hover:text-white"
                 >
                   <WhatsAppIcon className="size-4 text-sage" />

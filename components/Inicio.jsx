@@ -88,6 +88,7 @@ function Hero({ t }) {
             <a
               href={linkWhatsApp(t.whatsapp.consulta)}
               {...linkExterno}
+              data-ubicacion="portada"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-ink/15 bg-white/60 px-7 py-3.5 text-sm font-semibold text-ink backdrop-blur-sm transition hover:bg-white"
             >
               <WhatsAppIcon className="size-4" />
@@ -164,6 +165,8 @@ function TarjetaProducto({ producto, idioma, t, onAbrir }) {
         <a
           href={linkWhatsApp(t.whatsapp.producto(producto.nombre))}
           {...linkExterno}
+          data-ubicacion="tarjeta"
+          data-producto={producto.slug}
           className="relative z-10 mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sage px-5 py-3 text-sm font-semibold text-white transition hover:bg-sage-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage"
         >
           <WhatsAppIcon className="size-4" />

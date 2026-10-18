@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Gift, MapPin, Truck } from "lucide-react";
 import Caracteristicas from "@/components/Caracteristicas";
+import EventoVistaProducto from "@/components/EventoVistaProducto";
 import Footer from "@/components/Footer";
 import { WhatsAppIcon } from "@/components/IconosMarca";
 import JsonLd from "@/components/JsonLd";
@@ -58,6 +59,7 @@ export default async function PaginaProducto({ params }) {
   return (
     <>
       <JsonLd datos={grafo(esquemaProducto(producto, lang), migas(producto, lang))} />
+      <EventoVistaProducto slug={slug} />
       <Navbar idioma={lang} ruta={`/suculentas/${slug}`} />
       <main className="flex-1">
         <nav aria-label={t.producto.migas} className="mx-auto max-w-6xl px-4 pt-6 sm:px-6 sm:pt-8">
@@ -111,6 +113,8 @@ export default async function PaginaProducto({ params }) {
               href={linkWhatsApp(t.whatsapp.producto(producto.nombre))}
               target="_blank"
               rel="noopener noreferrer"
+              data-ubicacion="ficha"
+              data-producto={producto.slug}
               className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sage px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-sage/25 transition hover:bg-sage-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage sm:w-auto sm:self-start"
             >
               <WhatsAppIcon className="size-4" />

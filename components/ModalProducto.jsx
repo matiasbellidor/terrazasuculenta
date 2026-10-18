@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowUpRight, Gift, X } from "lucide-react";
 import Caracteristicas from "@/components/Caracteristicas";
 import { WhatsAppIcon } from "@/components/IconosMarca";
+import { registrarVistaProducto } from "@/lib/analitica";
 import { formatearPrecio, linkWhatsApp } from "@/lib/datos";
 import { conIdioma } from "@/lib/idiomas";
 import { useBloquearScroll } from "@/lib/useBloquearScroll";
@@ -16,6 +17,10 @@ export default function ModalProducto({ producto, idioma, t, onCerrar }) {
   const info = producto[idioma];
 
   useBloquearScroll(true);
+
+  useEffect(() => {
+    registrarVistaProducto(producto);
+  }, [producto]);
 
   // Foco en "Cerrar" al abrir y Escape para salir.
   useEffect(() => {
@@ -108,6 +113,8 @@ export default function ModalProducto({ producto, idioma, t, onCerrar }) {
                 href={linkWhatsApp(t.whatsapp.producto(producto.nombre))}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-ubicacion="detalle"
+                data-producto={producto.slug}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sage px-5 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-sage-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage"
               >
                 <WhatsAppIcon className="size-4" />

@@ -1,6 +1,7 @@
 import { Inter, Playfair_Display } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
+import Analitica from "@/components/Analitica";
 import Preloader from "@/components/Preloader";
 import { formatearPrecio, productos } from "@/lib/datos";
 import { IDIOMAS, atributoLang, esIdioma } from "@/lib/idiomas";
@@ -68,6 +69,7 @@ export default async function RootLayout({ children, params }) {
       <body className="flex min-h-full flex-col font-sans">
         <Preloader etiqueta={textos[lang].cargando} />
         {children}
+        <Analitica />
       </body>
     </html>
   );

@@ -56,6 +56,7 @@ export default function Navbar({ idioma, ruta = "/" }) {
           <a
             href={linkWhatsApp(t.whatsapp.consulta)}
             {...linkExterno}
+            data-ubicacion="barra"
             aria-label={t.nav.whatsapp}
             className="grid size-9 place-items-center rounded-full bg-sage text-white shadow-sm transition hover:bg-sage-dark sm:size-10"
           >
