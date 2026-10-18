@@ -1,44 +1,49 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
-import AutoScroll from "embla-carousel-auto-scroll";
 import { useReducedMotion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ideas } from "@/lib/datos";
+import { crearDesplazamiento } from "@/lib/desplazamiento";
 
 const claseFlecha =
   "grid size-11 cursor-pointer place-items-center rounded-full bg-white text-ink shadow-sm ring-1 ring-ink/10 transition hover:text-sage-dark hover:ring-sage/40 focus-visible:outline-2 focus-visible:outline-sage";
 
 export default function CarruselIdeas({ t, idioma }) {
   const reducirMovimiento = useReducedMotion();
+  const [desplazamiento] = useState(() => crearDesplazamiento({ velocidad: 0.8, velocidadLenta: 0.25 }));
+  // Se mueve siempre: con el mouse encima va más lento y con el dedo se puede arrastrar.
+  // Queda quieto solo si el sistema pide menos movimiento.
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start", dragFree: true },
-    // Se desliza solo, sin pausas; se frena con el mouse encima y retoma al salir.
-    // Queda quieto si el sistema pide menos movimiento.
-    reducirMovimiento
-      ? []
-      : [AutoScroll({ speed: 0.8, startDelay: 600, stopOnInteraction: false, stopOnMouseEnter: true })]
+    reducirMovimiento ? [] : [desplazamiento]
   );
 
-  // La flecha frena el deslizamiento, mueve una historia y lo retoma cuando termina.
+  // La flecha frena el deslizamiento, mueve una idea y lo retoma cuando termina.
   const mover = useCallback(
     (direccion) => {
       if (!emblaApi) return;
-      emblaApi.plugins().autoScroll?.reset();
-      if (direccion === "anterior") emblaApi.scrollPrev();
-      else emblaApi.scrollNext();
+      desplazamiento.pausarYMover(() =>
+        direccion === "anterior" ? emblaApi.scrollPrev() : emblaApi.scrollNext()
+      );
     },
-    [emblaApi]
+    [emblaApi, desplazamiento]
   );
+
+  // Solo el mouse lo frena: en pantallas táctiles no hay "encima" y quedaría lento para siempre.
+  const alEntrar = (evento) => evento.pointerType === "mouse" && desplazamiento.lento(true);
+  const alSalir = (evento) => evento.pointerType === "mouse" && desplazamiento.lento(false);
 
   return (
     <div role="region" aria-roledescription="carousel" aria-label={t.ideas.carrusel}>
       {/* Bordes laterales difuminados: las historias aparecen y se van suavemente */}
       <div
-        className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)]"
+        className="cursor-grab overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)] active:cursor-grabbing"
         ref={emblaRef}
+        onPointerEnter={alEntrar}
+        onPointerLeave={alSalir}
       >
         <div className="-ml-4 flex touch-pan-y touch-pinch-zoom">
           {ideas.map((idea) => (
