@@ -2,10 +2,9 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import Analitica from "@/components/Analitica";
-import Preloader from "@/components/Preloader";
+import Intro from "@/components/Intro";
 import { formatearPrecio, precioDesde } from "@/lib/datos";
 import { IDIOMAS, atributoLang, esIdioma } from "@/lib/idiomas";
-import { SCRIPT_PRELOADER } from "@/lib/preloader";
 import { URL_SITIO } from "@/lib/sitio";
 import { textos } from "@/lib/textos";
 
@@ -60,14 +59,9 @@ export default async function RootLayout({ children, params }) {
       lang={atributoLang(lang)}
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
-      // El script de abajo agrega data-preloader-visto antes de que React hidrate.
-      suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: SCRIPT_PRELOADER }} />
-      </head>
       <body className="flex min-h-full flex-col font-sans">
-        <Preloader etiqueta={textos[lang].cargando} />
+        <Intro />
         {children}
         <Analitica />
       </body>

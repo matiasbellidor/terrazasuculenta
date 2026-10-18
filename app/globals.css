@@ -28,20 +28,172 @@ html {
   }
 }
 
-/* Respaldo: si JavaScript no llega a cargar, el preloader se oculta solo */
-.preloader-respaldo {
-  animation: ocultar-preloader 0.5s ease 3s forwards;
+/* ------------------------------------------------------------------ */
+/* Animación de entrada (components/Intro.jsx)                         */
+/* Es solo CSS: arranca con el primer pintado y se oculta sola, aunque */
+/* JavaScript no cargue. Si cambian estos tiempos, actualizar DURACION */
+/* en components/Intro.jsx.                                            */
+/* ------------------------------------------------------------------ */
+:root {
+  --intro-pausa: 2.4s;
+  --intro-salida: 0.9s;
+  --intro-suave: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Ya se vio en las últimas 12 horas (lo marca el script de lib/preloader.js) */
-[data-preloader-visto] .preloader-respaldo {
-  display: none;
+.intro {
+  animation: intro-salida var(--intro-salida) cubic-bezier(0.4, 0, 0.2, 1) var(--intro-pausa) forwards;
 }
 
-@keyframes ocultar-preloader {
+.intro-contenido {
+  animation: intro-contenido-salida var(--intro-salida) cubic-bezier(0.4, 0, 0.2, 1) var(--intro-pausa) forwards;
+}
+
+.intro-logo {
+  animation: intro-logo 1.4s var(--intro-suave) 0.15s both;
+}
+
+.intro-halo {
+  animation: intro-halo 2.4s ease-in-out 0.3s both;
+}
+
+.intro-nombre {
+  animation: intro-nombre 1.6s var(--intro-suave) 0.45s both;
+}
+
+.intro-linea {
+  transform-origin: center;
+  animation: intro-linea 1.1s cubic-bezier(0.65, 0, 0.35, 1) 0.95s both;
+}
+
+.intro-lema {
+  animation: intro-aparecer 1s ease 1.25s both;
+}
+
+/* Duración y retraso de cada hoja vienen del style en línea */
+.intro-hoja {
+  animation-name: intro-hoja;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+  will-change: transform, opacity;
+}
+
+@keyframes intro-salida {
   to {
     opacity: 0;
     visibility: hidden;
+  }
+}
+
+@keyframes intro-contenido-salida {
+  to {
+    transform: scale(1.04);
+    filter: blur(6px);
+  }
+}
+
+@keyframes intro-logo {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes intro-halo {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+@keyframes intro-nombre {
+  from {
+    opacity: 0;
+    letter-spacing: 0.35em;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.02em;
+    filter: blur(0);
+  }
+}
+
+@keyframes intro-linea {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes intro-aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intro-hoja {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, var(--desde), 0) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(var(--vaiven), calc(var(--desde) + 22vh), 0) rotate(calc(var(--giro) * 0.5));
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--desde) + 45vh), 0) rotate(var(--giro));
+  }
+}
+
+/* Con "reducir movimiento": sin hojas ni halo, y todo aparece solo con un fundido */
+@keyframes intro-fundido {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-hoja,
+  .intro-halo {
+    display: none;
+  }
+  .intro-logo,
+  .intro-nombre,
+  .intro-linea,
+  .intro-lema {
+    animation-name: intro-fundido;
+  }
+  .intro-contenido {
+    animation: none;
   }
 }
 
