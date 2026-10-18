@@ -30,7 +30,12 @@ html {
 
 /* Respaldo: si JavaScript no llega a cargar, el preloader se oculta solo */
 .preloader-respaldo {
-  animation: ocultar-preloader 0.6s ease 6s forwards;
+  animation: ocultar-preloader 0.5s ease 3s forwards;
+}
+
+/* Ya se vio en las últimas 12 horas (lo marca el script de lib/preloader.js) */
+[data-preloader-visto] .preloader-respaldo {
+  display: none;
 }
 
 @keyframes ocultar-preloader {

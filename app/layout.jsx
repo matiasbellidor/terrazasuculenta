@@ -1,5 +1,6 @@
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { SCRIPT_PRELOADER } from "@/lib/preloader";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,7 +38,12 @@ export default function RootLayout({ children }) {
       lang="es-AR"
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      // El script de abajo agrega data-preloader-visto antes de que React hidrate.
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_PRELOADER }} />
+      </head>
       <body className="flex min-h-full flex-col font-sans">{children}</body>
     </html>
   );

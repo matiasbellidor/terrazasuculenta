@@ -3,11 +3,15 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import LogoMarca from "@/components/LogoMarca";
+import { CLAVE_PRELOADER, VIGENCIA_PRELOADER } from "@/lib/preloader";
 import { useBloquearScroll } from "@/lib/useBloquearScroll";
 
 // Tiempo mínimo en pantalla y tope máximo, en milisegundos desde que carga el JS.
-const DURACION_MINIMA = 1800;
-const DURACION_MAXIMA = 4000;
+const DURACION_MINIMA = 900;
+const DURACION_MAXIMA = 2000;
+
+// El script de app/layout.jsx lee la misma clave antes de que cargue React,
+// para que en las visitas siguientes la pantalla no parpadee.
 
 // Valores fijos (no aleatorios) para que el HTML del servidor y el del navegador coincidan.
 const HOJAS = [
@@ -101,6 +105,18 @@ export default function Preloader({ etiqueta }) {
 
   // Se oculta cuando terminó de cargar la página y pasó el tiempo mínimo.
   useEffect(() => {
+    let yaVisto = false;
+    try {
+      const ultimaVez = Number(localStorage.getItem(CLAVE_PRELOADER));
+      yaVisto = ultimaVez > 0 && Date.now() - ultimaVez < VIGENCIA_PRELOADER;
+      if (!yaVisto) localStorage.setItem(CLAVE_PRELOADER, String(Date.now()));
+    } catch {}
+
+    if (yaVisto) {
+      const inmediato = setTimeout(() => setVisible(false), 0);
+      return () => clearTimeout(inmediato);
+    }
+
     const inicio = performance.now();
     let temporizador;
 
