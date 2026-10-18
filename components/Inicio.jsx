@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence } from "motion/react";
 import {
   ArrowDown,
@@ -28,6 +29,7 @@ import {
   linkWhatsApp,
   productos,
 } from "@/lib/datos";
+import { conIdioma } from "@/lib/idiomas";
 import { textos } from "@/lib/textos";
 
 const linkExterno = { target: "_blank", rel: "noopener noreferrer" };
@@ -135,10 +137,15 @@ function TarjetaProducto({ producto, idioma, t, onAbrir }) {
           <p className="text-xl font-semibold text-terracotta">
             {formatearPrecio(producto.precio, idioma)}
           </p>
-          {/* El ::after cubre toda la tarjeta: cualquier clic abre el detalle */}
-          <button
-            type="button"
-            onClick={(evento) => onAbrir(producto, evento)}
+          {/* El ::after cubre toda la tarjeta. Es un enlace real a la ficha (Google lo sigue y se
+              puede abrir en otra pestaña), pero un clic común abre el detalle en la ventana. */}
+          <Link
+            href={conIdioma(idioma, `/suculentas/${producto.slug}`)}
+            onClick={(evento) => {
+              if (evento.metaKey || evento.ctrlKey || evento.shiftKey || evento.altKey) return;
+              evento.preventDefault();
+              onAbrir(producto, evento);
+            }}
             aria-label={`${t.catalogo.verDetalles}: ${producto.nombre}`}
             className="inline-flex cursor-pointer items-center gap-1 text-sm font-medium text-sage-dark after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-sage"
           >
@@ -147,7 +154,7 @@ function TarjetaProducto({ producto, idioma, t, onAbrir }) {
               className="size-4 transition group-hover:translate-x-0.5"
               aria-hidden="true"
             />
-          </button>
+          </Link>
         </div>
         <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-ink/55">
           <Gift className="size-3.5" aria-hidden="true" />

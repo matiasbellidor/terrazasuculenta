@@ -3,17 +3,13 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Droplets, Gauge, Gift, Ruler, Sun, X } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Gift, X } from "lucide-react";
+import Caracteristicas from "@/components/Caracteristicas";
 import { WhatsAppIcon } from "@/components/IconosMarca";
 import { formatearPrecio, linkWhatsApp } from "@/lib/datos";
+import { conIdioma } from "@/lib/idiomas";
 import { useBloquearScroll } from "@/lib/useBloquearScroll";
-
-const CARACTERISTICAS = [
-  { clave: "luz", icono: Sun },
-  { clave: "riego", icono: Droplets },
-  { clave: "dificultad", icono: Gauge },
-  { clave: "tamano", icono: Ruler },
-];
 
 export default function ModalProducto({ producto, idioma, t, onCerrar }) {
   const botonCerrar = useRef(null);
@@ -97,17 +93,14 @@ export default function ModalProducto({ producto, idioma, t, onCerrar }) {
             <h3 className="mt-8 text-xs font-semibold tracking-[0.2em] text-ink/50 uppercase">
               {t.modal.caracteristicas}
             </h3>
-            <dl className="mt-3 divide-y divide-ink/10 border-y border-ink/10">
-              {CARACTERISTICAS.map(({ clave, icono: Icono }) => (
-                <div key={clave} className="py-3.5">
-                  <dt className="flex items-center gap-2 text-xs font-semibold tracking-[0.15em] text-sage-dark uppercase">
-                    <Icono className="size-4" aria-hidden="true" />
-                    {t.modal[clave]}
-                  </dt>
-                  <dd className="mt-1 pl-6 text-sm text-ink">{info[clave]}</dd>
-                </div>
-              ))}
-            </dl>
+            <Caracteristicas info={info} t={t} />
+            <Link
+              href={conIdioma(idioma, `/suculentas/${producto.slug}`)}
+              className="mt-4 inline-flex items-center gap-1 self-start text-sm font-medium text-sage-dark underline-offset-4 hover:underline"
+            >
+              {t.producto.verFicha}
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+            </Link>
 
             {/* En celulares el botón queda fijo abajo para no tener que scrollear */}
             <div className="sticky bottom-0 -mx-6 mt-8 -mb-6 border-t border-ink/10 bg-cream/95 px-6 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur sm:-mx-8 sm:-mb-8 sm:px-8 md:static md:m-0 md:mt-8 md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
