@@ -5,8 +5,10 @@ import { Gift, MapPin, Truck } from "lucide-react";
 import Caracteristicas from "@/components/Caracteristicas";
 import Footer from "@/components/Footer";
 import { WhatsAppIcon } from "@/components/IconosMarca";
+import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import { formatearPrecio, linkWhatsApp, productos } from "@/lib/datos";
+import { grafo, migas, producto as esquemaProducto } from "@/lib/esquemas";
 import { conIdioma } from "@/lib/idiomas";
 import { alternativas } from "@/lib/sitio";
 import { textos } from "@/lib/textos";
@@ -55,6 +57,7 @@ export default async function PaginaProducto({ params }) {
 
   return (
     <>
+      <JsonLd datos={grafo(esquemaProducto(producto, lang), migas(producto, lang))} />
       <Navbar idioma={lang} ruta={`/suculentas/${slug}`} />
       <main className="flex-1">
         <nav aria-label={t.producto.migas} className="mx-auto max-w-6xl px-4 pt-6 sm:px-6 sm:pt-8">
