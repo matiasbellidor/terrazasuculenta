@@ -15,7 +15,7 @@ import {
   Sprout,
   Truck,
 } from "lucide-react";
-import CarruselClientes from "@/components/CarruselClientes";
+import CarruselIdeas from "@/components/CarruselIdeas";
 import ComoComprar from "@/components/ComoComprar";
 import PreguntasFrecuentes from "@/components/PreguntasFrecuentes";
 import { InstagramIcon, WhatsAppIcon } from "@/components/IconosMarca";
@@ -25,6 +25,7 @@ import Preloader from "@/components/Preloader";
 import {
   INSTAGRAM_URL,
   INSTAGRAM_USUARIO,
+  SEGUIDORES_INSTAGRAM,
   WHATSAPP_VISIBLE,
   formatearPrecio,
   linkWhatsApp,
@@ -108,10 +109,10 @@ function Navbar({ t, idioma, onCambiarIdioma }) {
             {t.nav.nosotros}
           </a>
           <a
-            href="#clientes"
+            href="#ideas"
             className="mr-1 hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark lg:block"
           >
-            {t.nav.clientes}
+            {t.nav.ideas}
           </a>
           <BotonIdioma idioma={idioma} onCambiar={onCambiarIdioma} etiqueta={t.nav.idioma} />
           <a
@@ -346,30 +347,36 @@ function SobreNosotros({ t }) {
   );
 }
 
-function Clientes({ t }) {
+function Ideas({ t, idioma }) {
   return (
-    <section id="clientes" className="scroll-mt-16 py-20 sm:py-28">
+    <section id="ideas" className="scroll-mt-16 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold tracking-[0.25em] text-terracotta-dark uppercase">
-            {t.clientes.etiqueta}
+            {t.ideas.etiqueta}
           </p>
           <h2 className="mt-3 font-serif text-3xl text-balance sm:text-4xl">
-            {t.clientes.titulo}
+            {t.ideas.titulo}
           </h2>
-          <p className="mt-4 leading-relaxed text-ink/70">{t.clientes.texto}</p>
+          <p className="mt-4 leading-relaxed text-ink/70">{t.ideas.texto}</p>
           <a
             href={INSTAGRAM_URL}
             {...linkExterno}
-            className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-sage-dark transition hover:text-ink"
+            className="mt-6 inline-flex items-center gap-3 rounded-2xl bg-white px-5 py-3 text-left text-sm shadow-sm ring-1 ring-ink/5 transition hover:ring-sage/40"
           >
-            <InstagramIcon className="size-4" />
-            {t.clientes.verInstagram}
+            <InstagramIcon className="size-5 shrink-0 text-terracotta" />
+            <span>
+              <span className="font-medium text-ink">{t.ideas.seguidores(SEGUIDORES_INSTAGRAM)}</span>
+              <span className="hidden text-ink/30 sm:inline" aria-hidden="true">
+                {" · "}
+              </span>
+              <span className="block font-medium text-sage-dark sm:inline">{t.ideas.verInstagram}</span>
+            </span>
           </a>
         </header>
 
         <div className="mt-12">
-          <CarruselClientes t={t} />
+          <CarruselIdeas t={t} idioma={idioma} />
         </div>
       </div>
     </section>
@@ -382,7 +389,7 @@ function Footer({ t }) {
     { href: "#catalogo", texto: t.nav.catalogo },
     { href: "#como-comprar", texto: t.nav.comoComprar },
     { href: "#nosotros", texto: t.nosotros.etiqueta },
-    { href: "#clientes", texto: t.nav.clientes },
+    { href: "#ideas", texto: t.nav.ideas },
     { href: "#preguntas", texto: t.nav.preguntas },
   ];
 
@@ -486,7 +493,7 @@ export default function Home() {
           <Catalogo t={t} idioma={idioma} onAbrir={abrirProducto} />
           <ComoComprar t={t} />
           <SobreNosotros t={t} />
-          <Clientes t={t} />
+          <Ideas t={t} idioma={idioma} />
           <PreguntasFrecuentes
             t={t}
             precio={formatearPrecio(PRECIO, idioma)}

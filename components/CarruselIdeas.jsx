@@ -6,12 +6,12 @@ import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { useReducedMotion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { clientes } from "@/lib/datos";
+import { ideas } from "@/lib/datos";
 
 const claseFlecha =
   "grid size-11 cursor-pointer place-items-center rounded-full bg-white text-ink shadow-sm ring-1 ring-ink/10 transition hover:text-sage-dark hover:ring-sage/40 focus-visible:outline-2 focus-visible:outline-sage";
 
-export default function CarruselClientes({ t }) {
+export default function CarruselIdeas({ t, idioma }) {
   const reducirMovimiento = useReducedMotion();
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start", dragFree: true },
@@ -34,28 +34,30 @@ export default function CarruselClientes({ t }) {
   );
 
   return (
-    <div role="region" aria-roledescription="carousel" aria-label={t.clientes.carrusel}>
+    <div role="region" aria-roledescription="carousel" aria-label={t.ideas.carrusel}>
       {/* Bordes laterales difuminados: las historias aparecen y se van suavemente */}
       <div
         className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)]"
         ref={emblaRef}
       >
         <div className="-ml-4 flex touch-pan-y touch-pinch-zoom">
-          {clientes.map((foto, i) => (
+          {ideas.map((idea) => (
             <div
-              key={foto}
+              key={idea.imagen}
               className="min-w-0 shrink-0 grow-0 basis-3/5 pl-4 sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
             >
-              {/* Formato vertical de historia de Instagram (9:16) */}
-              <div className="relative aspect-9/16 overflow-hidden rounded-xl bg-sage/10 shadow-sm ring-1 ring-ink/5">
+              <figure className="relative aspect-9/16 overflow-hidden rounded-xl bg-sage/10 shadow-sm ring-1 ring-ink/5">
                 <Image
-                  src={foto}
-                  alt={`${t.clientes.alt} (${i + 1})`}
+                  src={idea.imagen}
+                  alt={`${t.ideas.alt}: ${idea[idioma]}`}
                   fill
                   sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 60vw"
                   className="object-cover"
                 />
-              </div>
+                <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-ink/65 to-transparent px-4 pt-14 pb-4 font-serif text-lg text-white">
+                  {idea[idioma]}
+                </figcaption>
+              </figure>
             </div>
           ))}
         </div>
@@ -65,7 +67,7 @@ export default function CarruselClientes({ t }) {
         <button
           type="button"
           onClick={() => mover("anterior")}
-          aria-label={t.clientes.anterior}
+          aria-label={t.ideas.anterior}
           className={claseFlecha}
         >
           <ChevronLeft className="size-5" aria-hidden="true" />
@@ -73,7 +75,7 @@ export default function CarruselClientes({ t }) {
         <button
           type="button"
           onClick={() => mover("siguiente")}
-          aria-label={t.clientes.siguiente}
+          aria-label={t.ideas.siguiente}
           className={claseFlecha}
         >
           <ChevronRight className="size-5" aria-hidden="true" />
