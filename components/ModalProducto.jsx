@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Droplets, Gauge, Ruler, Sun, X } from "lucide-react";
+import { Droplets, Gauge, Gift, Ruler, Sun, X } from "lucide-react";
 import { WhatsAppIcon } from "@/components/IconosMarca";
 import { formatearPrecio, linkWhatsApp } from "@/lib/datos";
 import { useBloquearScroll } from "@/lib/useBloquearScroll";
@@ -88,6 +88,10 @@ export default function ModalProducto({ producto, idioma, t, onCerrar }) {
             <p className="mt-3 text-sm leading-relaxed text-ink/70">{info.descripcion}</p>
             <p className="mt-5 text-2xl font-semibold text-terracotta">
               {formatearPrecio(producto.precio, idioma)}
+            </p>
+            <p className="mt-1.5 inline-flex items-center gap-1.5 text-sm text-ink/60">
+              <Gift className="size-4" aria-hidden="true" />
+              {t.catalogo.incluye}
             </p>
 
             <h3 className="mt-8 text-xs font-semibold tracking-[0.2em] text-ink/50 uppercase">

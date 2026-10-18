@@ -6,14 +6,18 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowDown,
   ArrowRight,
+  Gift,
   House,
   Languages,
   Leaf,
   MapPin,
   MessageCircle,
   Sprout,
+  Truck,
 } from "lucide-react";
 import CarruselClientes from "@/components/CarruselClientes";
+import ComoComprar from "@/components/ComoComprar";
+import PreguntasFrecuentes from "@/components/PreguntasFrecuentes";
 import { InstagramIcon, WhatsAppIcon } from "@/components/IconosMarca";
 import LogoMarca from "@/components/LogoMarca";
 import ModalProducto from "@/components/ModalProducto";
@@ -30,6 +34,9 @@ import { textos } from "@/lib/textos";
 
 const linkExterno = { target: "_blank", rel: "noopener noreferrer" };
 const ICONOS_VALORES = [Leaf, House, MessageCircle];
+const ICONOS_DATOS = [Truck, MapPin, Gift];
+// Hoy todas las plantas cuestan lo mismo; si eso cambia, revisar "¿Qué incluye el precio?" en lib/textos.js
+const PRECIO = productos[0].precio;
 const DIFUMINADO = "radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%)";
 
 /* ------------------------------------------------------------------ */
@@ -89,14 +96,20 @@ function Navbar({ t, idioma, onCambiarIdioma }) {
             {t.nav.catalogo}
           </a>
           <a
-            href="#nosotros"
+            href="#como-comprar"
             className="hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark md:block"
+          >
+            {t.nav.comoComprar}
+          </a>
+          <a
+            href="#nosotros"
+            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark lg:block"
           >
             {t.nav.nosotros}
           </a>
           <a
             href="#clientes"
-            className="mr-1 hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark md:block"
+            className="mr-1 hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark lg:block"
           >
             {t.nav.clientes}
           </a>
@@ -178,6 +191,17 @@ function Hero({ t }) {
               {t.hero.consulta}
             </a>
           </div>
+          <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink/70">
+            {t.hero.datos.map((dato, i) => {
+              const Icono = ICONOS_DATOS[i];
+              return (
+                <li key={dato} className="inline-flex items-center gap-2">
+                  <Icono className="size-4 text-sage-dark" aria-hidden="true" />
+                  {dato}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </section>
@@ -224,6 +248,10 @@ function TarjetaProducto({ producto, idioma, t, onAbrir }) {
             />
           </button>
         </div>
+        <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-ink/55">
+          <Gift className="size-3.5" aria-hidden="true" />
+          {t.catalogo.incluye}
+        </p>
 
         <a
           href={linkWhatsApp(t.whatsapp.producto(producto.nombre))}
@@ -352,8 +380,10 @@ function Footer({ t }) {
   const secciones = [
     { href: "#inicio", texto: t.footer.inicio },
     { href: "#catalogo", texto: t.nav.catalogo },
+    { href: "#como-comprar", texto: t.nav.comoComprar },
     { href: "#nosotros", texto: t.nosotros.etiqueta },
     { href: "#clientes", texto: t.nav.clientes },
+    { href: "#preguntas", texto: t.nav.preguntas },
   ];
 
   return (
@@ -454,8 +484,14 @@ export default function Home() {
         <main>
           <Hero t={t} />
           <Catalogo t={t} idioma={idioma} onAbrir={abrirProducto} />
+          <ComoComprar t={t} />
           <SobreNosotros t={t} />
           <Clientes t={t} />
+          <PreguntasFrecuentes
+            t={t}
+            precio={formatearPrecio(PRECIO, idioma)}
+            enlaceWhatsApp={linkWhatsApp(t.whatsapp.consulta)}
+          />
         </main>
         <Footer t={t} />
       </div>
