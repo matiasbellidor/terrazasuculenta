@@ -8,13 +8,14 @@ import { ArrowUpRight, Gift, X } from "lucide-react";
 import Caracteristicas from "@/components/Caracteristicas";
 import { WhatsAppIcon } from "@/components/IconosMarca";
 import { registrarVistaProducto } from "@/lib/analitica";
-import { formatearPrecio, linkWhatsApp } from "@/lib/datos";
+import { formatearPrecio, linkWhatsApp, nombreDe } from "@/lib/datos";
 import { conIdioma } from "@/lib/idiomas";
 import { useBloquearScroll } from "@/lib/useBloquearScroll";
 
 export default function ModalProducto({ producto, idioma, t, onCerrar }) {
   const botonCerrar = useRef(null);
   const info = producto[idioma];
+  const nombre = nombreDe(producto, idioma);
 
   useBloquearScroll(true);
 
@@ -69,7 +70,7 @@ export default function ModalProducto({ producto, idioma, t, onCerrar }) {
           <div className="relative aspect-4/3 bg-sage/10 md:aspect-auto md:min-h-[540px]">
             <Image
               src={producto.imagen}
-              alt={`${producto.nombre} (${info.nombreComun})`}
+              alt={`${nombre} (${info.nombreComun})`}
               fill
               sizes="(min-width: 896px) 448px, (min-width: 768px) 50vw, 100vw"
               className="object-cover"
@@ -84,7 +85,7 @@ export default function ModalProducto({ producto, idioma, t, onCerrar }) {
               id="modal-producto-titulo"
               className="mt-1.5 pr-10 font-serif text-3xl italic md:pr-0"
             >
-              {producto.nombre}
+              {nombre}
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-ink/70">{info.descripcion}</p>
             <p className="mt-5 text-2xl font-semibold text-terracotta">
@@ -110,7 +111,7 @@ export default function ModalProducto({ producto, idioma, t, onCerrar }) {
             {/* En celulares el botón queda fijo abajo para no tener que scrollear */}
             <div className="sticky bottom-0 -mx-6 mt-8 -mb-6 border-t border-ink/10 bg-cream/95 px-6 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur sm:-mx-8 sm:-mb-8 sm:px-8 md:static md:m-0 md:mt-8 md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
               <a
-                href={linkWhatsApp(t.whatsapp.producto(producto.nombre))}
+                href={linkWhatsApp(t.whatsapp.producto(nombre))}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-ubicacion="detalle"

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import Analitica from "@/components/Analitica";
 import Preloader from "@/components/Preloader";
-import { formatearPrecio, productos } from "@/lib/datos";
+import { formatearPrecio, precioDesde } from "@/lib/datos";
 import { IDIOMAS, atributoLang, esIdioma } from "@/lib/idiomas";
 import { SCRIPT_PRELOADER } from "@/lib/preloader";
 import { URL_SITIO } from "@/lib/sitio";
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
   if (!esIdioma(lang)) notFound();
   const t = textos[lang];
-  const descripcion = t.meta.descripcion(formatearPrecio(productos[0].precio, lang));
+  const descripcion = t.meta.descripcion(formatearPrecio(precioDesde, lang));
   return {
     metadataBase: new URL(URL_SITIO),
     title: t.meta.titulo,

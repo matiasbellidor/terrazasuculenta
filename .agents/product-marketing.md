@@ -1,6 +1,6 @@
 # Product Marketing Context — Terraza Suculenta
 
-**Document version:** v2
+**Document version:** v3
 **Last updated:** 2026-10-18
 
 > **Fuentes:** **[dueña]** = lo confirmó el usuario. **[sitio]** = texto redactado por Claude, sin validar con clientes. **[inferido]** = deducción a confirmar. **PENDIENTE** = falta el dato; no inventarlo.
@@ -10,11 +10,11 @@
 **What it does:** Vende suculentas de interior como objeto decorativo. El cliente elige en el catálogo web, escribe por WhatsApp con un mensaje ya armado y se coordinan el pago y la entrega. [dueña]
 **Product category:** Suculentas y plantas de interior para decorar y regalar. [dueña]
 **Product type:** Comercio local B2C, sin local a la calle. Catálogo web sin carrito; la venta se cierra por chat. [dueña]
-**Business model:** Venta por unidad a precio único: **$34.999 ARS**, que incluye la suculenta, su maceta y la presentación de regalo. [dueña]
+**Business model:** Venta por unidad. **$34.999 ARS** por planta y **$15.799 ARS** las "sucus mini para regalar". El precio incluye la suculenta, su maceta y la presentación de regalo. [dueña]
 - **Pagos:** transferencia bancaria, Mercado Pago o efectivo. [dueña]
 - **Entrega:** envíos dentro de CABA, o retiro en un punto de Las Cañitas (Palermo). La dirección se pasa por WhatsApp y el horario se coordina. [dueña]
 - PENDIENTE: costo y demora del envío.
-- **Catálogo:** 6 especies. Echeveria elegans, Haworthia fasciata, Sedum morganianum, Pachyphytum oviferum, Graptopetalum paraguayense y Aloe aristata. Las fichas de cuidado las redactó Claude: PENDIENTE que las valide la dueña.
+- **Catálogo (fotos reales de la dueña):** Crassula ovata 'Gollum', Pachyphytum oviferum, Echeveria, Haworthiopsis fasciata (cebrita), Mix de rosetas coloridas (pachyveria y otras) y Sucus mini para regalar. Las fichas de cuidado las redactó Claude a partir de fuentes de jardinería: PENDIENTE que las valide la dueña.
 
 ## Target Audience
 **Target:** Personas de CABA que compran suculentas para decorar su casa o para regalar. Los dos usos pesan parecido. [dueña]
@@ -43,7 +43,7 @@ PENDIENTE: la dueña no nombró competidores.
 
 ## Differentiation
 - Presentación de regalo incluida en el precio. [dueña]
-- Precio único y simple: todas a $34.999, con maceta. [dueña]
+- Precios simples: $34.999 por planta y $15.799 las sucus mini, siempre con maceta. [dueña]
 - Trato directo por WhatsApp, con retiro en Las Cañitas o envío en CABA. [dueña]
 - Selección con criterio estético ("boutique", "simplicidad y estética"). [dueña]
 
@@ -108,5 +108,6 @@ No hacen anuncios por ahora.
 | 2026-10-18 | La marca habla de vos | Confirmado por la dueña | Copy | active |
 
 ## Changelog
+- v3 (2026-10-18) — Nuevo catálogo con fotos reales de la dueña (6 artículos) y segundo precio: $15.799 las sucus mini para regalar.
 - v2 (2026-10-18) — Respuestas de la dueña: pagos, envíos en CABA, retiro en Las Cañitas, qué incluye el precio, voseo, dominio vercel.app, 1.004 seguidores en Instagram, compran para casa y para regalar.
 - v1 (2026-10-18) — Borrador inicial deducido del código y del contenido del sitio.

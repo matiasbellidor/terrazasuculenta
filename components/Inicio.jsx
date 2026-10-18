@@ -27,6 +27,8 @@ import {
   SEGUIDORES_INSTAGRAM,
   formatearPrecio,
   linkWhatsApp,
+  nombreDe,
+  precioDesde,
   productos,
 } from "@/lib/datos";
 import { conIdioma } from "@/lib/idiomas";
@@ -35,8 +37,6 @@ import { textos } from "@/lib/textos";
 const linkExterno = { target: "_blank", rel: "noopener noreferrer" };
 const ICONOS_VALORES = [Leaf, House, MessageCircle];
 const ICONOS_DATOS = [Truck, MapPin, Gift];
-// Hoy todas las plantas cuestan lo mismo; si eso cambia, revisar "¿Qué incluye el precio?" en lib/textos.js
-const PRECIO = productos[0].precio;
 const DIFUMINADO = "radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%)";
 
 function Hero({ t }) {
@@ -114,13 +114,14 @@ function Hero({ t }) {
 
 function TarjetaProducto({ producto, idioma, t, onAbrir }) {
   const info = producto[idioma];
+  const nombre = nombreDe(producto, idioma);
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-ink/5 transition duration-300 hover:-translate-y-1 hover:shadow-lg">
       <div className="relative aspect-4/5 overflow-hidden bg-sage/10">
         <Image
           src={producto.imagen}
-          alt={`${producto.nombre} (${info.nombreComun})`}
+          alt={`${nombre} (${info.nombreComun})`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition duration-700 group-hover:scale-105"
@@ -131,7 +132,7 @@ function TarjetaProducto({ producto, idioma, t, onAbrir }) {
         <p className="text-xs font-semibold tracking-[0.2em] text-sage-dark uppercase">
           {info.nombreComun}
         </p>
-        <h3 className="mt-1.5 font-serif text-xl italic">{producto.nombre}</h3>
+        <h3 className="mt-1.5 font-serif text-xl italic">{nombre}</h3>
         <p className="mt-2 text-sm leading-relaxed text-ink/65">{info.descripcion}</p>
 
         <div className="mt-auto flex items-end justify-between gap-4 pt-5">
@@ -147,7 +148,7 @@ function TarjetaProducto({ producto, idioma, t, onAbrir }) {
               evento.preventDefault();
               onAbrir(producto, evento);
             }}
-            aria-label={`${t.catalogo.verDetalles}: ${producto.nombre}`}
+            aria-label={`${t.catalogo.verDetalles}: ${nombre}`}
             className="inline-flex cursor-pointer items-center gap-1 text-sm font-medium text-sage-dark after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-sage"
           >
             {t.catalogo.verDetalles}
@@ -163,7 +164,7 @@ function TarjetaProducto({ producto, idioma, t, onAbrir }) {
         </p>
 
         <a
-          href={linkWhatsApp(t.whatsapp.producto(producto.nombre))}
+          href={linkWhatsApp(t.whatsapp.producto(nombre))}
           {...linkExterno}
           data-ubicacion="tarjeta"
           data-producto={producto.slug}
@@ -318,7 +319,7 @@ export default function Inicio({ idioma }) {
           <Ideas t={t} idioma={idioma} />
           <PreguntasFrecuentes
             t={t}
-            precio={formatearPrecio(PRECIO, idioma)}
+            precio={formatearPrecio(precioDesde, idioma)}
             enlaceWhatsApp={linkWhatsApp(t.whatsapp.consulta)}
           />
         </main>

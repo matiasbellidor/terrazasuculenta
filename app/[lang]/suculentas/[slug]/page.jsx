@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import { WhatsAppIcon } from "@/components/IconosMarca";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
-import { formatearPrecio, linkWhatsApp, productos } from "@/lib/datos";
+import { formatearPrecio, linkWhatsApp, nombreDe, productos } from "@/lib/datos";
 import { grafo, migas, producto as esquemaProducto } from "@/lib/esquemas";
 import { conIdioma } from "@/lib/idiomas";
 import { alternativas } from "@/lib/sitio";
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
   if (!producto) notFound();
   const info = producto[lang];
   const t = textos[lang];
-  const nombre = `${producto.nombre} (${info.nombreComun})`;
+  const nombre = `${nombreDe(producto, lang)} (${info.nombreComun})`;
   const descripcion = `${info.descripcion} ${formatearPrecio(producto.precio, lang)}. ${t.catalogo.incluye}.`;
 
   return {
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }) {
       siteName: "Terraza Suculenta",
       locale: lang === "en" ? "en_US" : "es_AR",
       type: "website",
-      images: [{ url: producto.imagen, width: 1000, height: 1250, alt: nombre }],
+      images: [{ url: producto.imagen, alt: nombre }],
     },
   };
 }
@@ -53,6 +53,7 @@ export default async function PaginaProducto({ params }) {
 
   const t = textos[lang];
   const info = producto[lang];
+  const nombre = nombreDe(producto, lang);
   const inicio = conIdioma(lang);
   const otros = productos.filter((otro) => otro.slug !== slug);
 
@@ -77,7 +78,7 @@ export default async function PaginaProducto({ params }) {
             </li>
             <li aria-hidden="true">/</li>
             <li aria-current="page" className="text-ink/80 italic">
-              {producto.nombre}
+              {nombre}
             </li>
           </ol>
         </nav>
@@ -86,7 +87,7 @@ export default async function PaginaProducto({ params }) {
           <div className="relative aspect-4/5 overflow-hidden rounded-2xl bg-sage/10 shadow-sm ring-1 ring-ink/5">
             <Image
               src={producto.imagen}
-              alt={`${producto.nombre} (${info.nombreComun})`}
+              alt={`${nombre} (${info.nombreComun})`}
               fill
               preload
               sizes="(min-width: 1152px) 552px, (min-width: 768px) 50vw, 100vw"
@@ -98,7 +99,7 @@ export default async function PaginaProducto({ params }) {
             <p className="text-xs font-semibold tracking-[0.2em] text-sage-dark uppercase">
               {info.nombreComun}
             </p>
-            <h1 className="mt-2 font-serif text-4xl italic sm:text-5xl">{producto.nombre}</h1>
+            <h1 className="mt-2 font-serif text-4xl italic sm:text-5xl">{nombre}</h1>
             <p className="mt-4 leading-relaxed text-ink/70">{info.descripcion}</p>
 
             <p className="mt-6 text-3xl font-semibold text-terracotta">
@@ -110,7 +111,7 @@ export default async function PaginaProducto({ params }) {
             </p>
 
             <a
-              href={linkWhatsApp(t.whatsapp.producto(producto.nombre))}
+              href={linkWhatsApp(t.whatsapp.producto(nombre))}
               target="_blank"
               rel="noopener noreferrer"
               data-ubicacion="ficha"
@@ -156,7 +157,7 @@ export default async function PaginaProducto({ params }) {
                       />
                     </div>
                     <p className="mt-3 font-serif italic transition group-hover:text-sage-dark">
-                      {otro.nombre}
+                      {nombreDe(otro, lang)}
                     </p>
                     <p className="text-xs text-ink/55">{otro[lang].nombreComun}</p>
                   </Link>
