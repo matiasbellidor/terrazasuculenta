@@ -18,17 +18,12 @@ const description =
 export const metadata = {
   title: "Terraza Suculenta | Suculentas en Palermo, CABA",
   description,
-  icons: {
-    icon: "/images/logo.png",
-    apple: "/images/logo.png",
-  },
-  // Vista previa al compartir el link por WhatsApp o Instagram
+  // Íconos y vista previa al compartir: app/icon.png, app/apple-icon.png y app/opengraph-image.jpg
   openGraph: {
     title: "Terraza Suculenta",
     description,
     locale: "es_AR",
     type: "website",
-    images: ["/images/hero-bg.png"],
   },
 };
 
