@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import {
   ArrowDown,
   ArrowRight,
   Gift,
   House,
-  Languages,
   Leaf,
   MapPin,
   MessageCircle,
@@ -17,16 +16,14 @@ import {
 } from "lucide-react";
 import CarruselIdeas from "@/components/CarruselIdeas";
 import ComoComprar from "@/components/ComoComprar";
-import PreguntasFrecuentes from "@/components/PreguntasFrecuentes";
+import Footer from "@/components/Footer";
 import { InstagramIcon, WhatsAppIcon } from "@/components/IconosMarca";
-import LogoMarca from "@/components/LogoMarca";
 import ModalProducto from "@/components/ModalProducto";
-import Preloader from "@/components/Preloader";
+import Navbar from "@/components/Navbar";
+import PreguntasFrecuentes from "@/components/PreguntasFrecuentes";
 import {
   INSTAGRAM_URL,
-  INSTAGRAM_USUARIO,
   SEGUIDORES_INSTAGRAM,
-  WHATSAPP_VISIBLE,
   formatearPrecio,
   linkWhatsApp,
   productos,
@@ -39,103 +36,6 @@ const ICONOS_DATOS = [Truck, MapPin, Gift];
 // Hoy todas las plantas cuestan lo mismo; si eso cambia, revisar "¿Qué incluye el precio?" en lib/textos.js
 const PRECIO = productos[0].precio;
 const DIFUMINADO = "radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%)";
-
-/* ------------------------------------------------------------------ */
-/* Secciones                                                           */
-/* ------------------------------------------------------------------ */
-
-// Un solo botón: muestra el idioma al que se pasa y cambia con cada toque.
-function BotonIdioma({ idioma, onCambiar, etiqueta }) {
-  const otro = idioma === "es" ? "en" : "es";
-  return (
-    <button
-      type="button"
-      onClick={() => onCambiar(otro)}
-      aria-label={etiqueta}
-      title={etiqueta}
-      className="flex h-9 cursor-pointer items-center gap-1.5 rounded-full bg-ink/5 px-3 text-xs font-semibold tracking-wide text-ink/80 uppercase transition hover:bg-sage/10 hover:text-sage-dark focus-visible:outline-2 focus-visible:outline-sage sm:h-10"
-    >
-      <Languages className="size-4" aria-hidden="true" />
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={otro}
-          className="inline-block"
-          initial={{ y: 6, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -6, opacity: 0 }}
-          transition={{ duration: 0.15 }}
-        >
-          {otro}
-        </motion.span>
-      </AnimatePresence>
-    </button>
-  );
-}
-
-function Navbar({ t, idioma, onCambiarIdioma }) {
-  return (
-    <header className="sticky top-0 z-50 border-b border-ink/5 bg-cream/85 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <a href="#inicio" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-          <LogoMarca
-            alt="Logo de Terraza Suculenta"
-            ancho={60}
-            className="size-9 ring-1 ring-ink/5 sm:size-10"
-          />
-          {/* En celulares el nombre va en dos líneas para dejar lugar a los botones */}
-          <span className="font-serif text-[15px] leading-[1.1] tracking-tight sm:text-lg sm:leading-normal">
-            Terraza
-            <br className="sm:hidden" /> Suculenta
-          </span>
-        </a>
-
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          <a
-            href="#catalogo"
-            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark md:block"
-          >
-            {t.nav.catalogo}
-          </a>
-          <a
-            href="#como-comprar"
-            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark md:block"
-          >
-            {t.nav.comoComprar}
-          </a>
-          <a
-            href="#nosotros"
-            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark lg:block"
-          >
-            {t.nav.nosotros}
-          </a>
-          <a
-            href="#ideas"
-            className="mr-1 hidden rounded-lg px-3 py-2 text-sm font-medium text-ink/70 transition hover:text-sage-dark lg:block"
-          >
-            {t.nav.ideas}
-          </a>
-          <BotonIdioma idioma={idioma} onCambiar={onCambiarIdioma} etiqueta={t.nav.idioma} />
-          <a
-            href={INSTAGRAM_URL}
-            {...linkExterno}
-            aria-label={t.nav.instagram}
-            className="grid size-9 place-items-center rounded-full text-ink/70 transition hover:bg-sage/10 hover:text-sage-dark sm:size-10"
-          >
-            <InstagramIcon className="size-5" />
-          </a>
-          <a
-            href={linkWhatsApp(t.whatsapp.consulta)}
-            {...linkExterno}
-            aria-label={t.nav.whatsapp}
-            className="grid size-9 place-items-center rounded-full bg-sage text-white shadow-sm transition hover:bg-sage-dark sm:size-10"
-          >
-            <WhatsAppIcon className="size-5" />
-          </a>
-        </div>
-      </nav>
-    </header>
-  );
-}
 
 function Hero({ t }) {
   return (
@@ -383,96 +283,10 @@ function Ideas({ t, idioma }) {
   );
 }
 
-function Footer({ t }) {
-  const secciones = [
-    { href: "#inicio", texto: t.footer.inicio },
-    { href: "#catalogo", texto: t.nav.catalogo },
-    { href: "#como-comprar", texto: t.nav.comoComprar },
-    { href: "#nosotros", texto: t.nosotros.etiqueta },
-    { href: "#ideas", texto: t.nav.ideas },
-    { href: "#preguntas", texto: t.nav.preguntas },
-  ];
-
-  return (
-    <footer className="bg-ink text-white/75">
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <div className="grid gap-10 sm:grid-cols-3">
-          <div>
-            <p className="font-serif text-xl text-white">Terraza Suculenta</p>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">
-              {t.footer.lema}
-            </p>
-          </div>
-
-          <nav aria-label={t.footer.secciones}>
-            <p className="text-xs font-semibold tracking-[0.2em] text-white/45 uppercase">
-              {t.footer.secciones}
-            </p>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {secciones.map(({ href, texto }) => (
-                <li key={href}>
-                  <a href={href} className="transition hover:text-white">
-                    {texto}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-white/45 uppercase">
-              {t.footer.contacto}
-            </p>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li>
-                <a
-                  href={linkWhatsApp(t.whatsapp.consulta)}
-                  {...linkExterno}
-                  className="inline-flex items-center gap-2.5 transition hover:text-white"
-                >
-                  <WhatsAppIcon className="size-4 text-sage" />
-                  {WHATSAPP_VISIBLE}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={INSTAGRAM_URL}
-                  {...linkExterno}
-                  className="inline-flex items-center gap-2.5 transition hover:text-white"
-                >
-                  <InstagramIcon className="size-4 text-terracotta" />
-                  {INSTAGRAM_USUARIO}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <MapPin className="size-4 text-white/45" aria-hidden="true" />
-                {t.nosotros.ubicacion}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <p className="mt-12 border-t border-white/10 pt-6 text-xs text-white/45">
-          © 2026 Terraza Suculenta. {t.footer.derechos}
-        </p>
-      </div>
-    </footer>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Página                                                              */
-/* ------------------------------------------------------------------ */
-
-export default function Home() {
-  const [idioma, setIdioma] = useState("es");
+export default function Inicio({ idioma }) {
   const [productoActivo, setProductoActivo] = useState(null);
   const disparador = useRef(null);
   const t = textos[idioma];
-
-  useEffect(() => {
-    document.documentElement.lang = idioma === "en" ? "en" : "es-AR";
-  }, [idioma]);
 
   const abrirProducto = (producto, evento) => {
     disparador.current = evento.currentTarget;
@@ -483,11 +297,9 @@ export default function Home() {
 
   return (
     <>
-      <Preloader etiqueta={t.cargando} />
-
       {/* Con el detalle abierto, el resto de la página queda inactiva (foco y clics) */}
       <div inert={productoActivo !== null} className="flex flex-1 flex-col">
-        <Navbar t={t} idioma={idioma} onCambiarIdioma={setIdioma} />
+        <Navbar idioma={idioma} />
         <main>
           <Hero t={t} />
           <Catalogo t={t} idioma={idioma} onAbrir={abrirProducto} />
@@ -500,7 +312,7 @@ export default function Home() {
             enlaceWhatsApp={linkWhatsApp(t.whatsapp.consulta)}
           />
         </main>
-        <Footer t={t} />
+        <Footer idioma={idioma} />
       </div>
 
       <AnimatePresence onExitComplete={() => disparador.current?.focus()}>
